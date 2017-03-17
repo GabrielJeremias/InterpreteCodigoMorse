@@ -12,14 +12,46 @@ package
 		private var i:int;
 		private var posX:int = 20;
 		private var posY:int = 20;
-		
+		private var ejeX:int = 20;
+		private var ejeY:int = stage.stageHeight / 2;
+		private var codigo:Shape;
 		public function Main()
 		{
 			i = 0;
+			codigo = new Shape();
 			contenedor = new Array();
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, letras);
+			addChild(codigo);
+		}
+		private function crearPunto(posiX:int, posiY:int):void
+		{			
+			if (ejeX > stage.stageWidth)
+			{
+				ejeX = 5;
+				ejeY += 20;
+			}
+			else{
+				ejeX += 10;
+			}
+			codigo.graphics.beginFill(0x000000)
+			codigo.graphics.drawCircle(posiX, posiY, 4);
+			codigo.graphics.endFill();
 		}
 		
+		private function crearLinea(posiX:int, posiY:int):void
+		{
+			if (ejeX > stage.stageWidth)
+			{
+				ejeX = 5;
+				ejeY += 20;
+			}
+			else{
+				ejeX += 25;
+			}
+			codigo.graphics.beginFill(0x000000)
+			codigo.graphics.drawRect(posiX, posiY, 15, 4)
+			codigo.graphics.endFill();
+		}
 		public function letras(event:KeyboardEvent):void
 		{
 			if (event.charCode != 13)
@@ -27,11 +59,13 @@ package
 				if (event.charCode == 45)
 				{
 					contenedor[i] = "l";
+					crearLinea(ejeX,ejeY);
 					i++;
 				}
 				else if (event.charCode == 46)
 				{
 					contenedor[i] = "p";
+					crearPunto(ejeX, ejeY);
 					i++;
 				}
 				
@@ -39,10 +73,24 @@ package
 			else
 			{
 				escribir();
+				ejeX += 20;
 			}
 			
 			if (event.charCode == 32)
 			{
+				crearLinea(posX, posY);
+				ejeX += 22;
+				crearLinea(posX, posY);
+				ejeX += 22;
+				crearPunto(posX, posY);
+				ejeX += 9;
+				crearPunto(posX, posY);
+				ejeX += 9;
+				crearLinea(posX, posY);
+				ejeX += 22;
+				crearLinea(posX, posY);
+				ejeX += 30;
+				
 				posX += 25;
 			}
 			trace(event.charCode)
